@@ -1,0 +1,107 @@
+# 🛡️ Kavach-AI Ingestion Gateway & Swarm Daemon Test Suite
+# REST API Specifications for Hackathon Judges & Developers
+# Target Endpoint: http://localhost:8080 (Rust actix-web)
+
+@host = http://localhost:8080
+@apiVersion = api/v1
+@contentType = application/json
+
+###
+# 1. Gateway Liveness Probe
+# Verifies actix-web gateway status, runtime version, and configured interdiction budget.
+GET {{host}}/{{apiVersion}}/health
+Accept: {{contentType}}
+
+###
+# 2. Session Initialization (Hardware Gate)
+# Starts a monitoring session. Validates browser metadata and checks for virtual camera drivers.
+# 
+# Note: Changing camera_device_label to "OBS Virtual Camera" or "v4l2loopback" will trigger 
+# the instant virtual-camera driver block (HTTP 403 Forbidden).
+#
+# @name initSession
+POST {{host}}/{{apiVersion}}/session/init
+Content-Type: {{contentType}}
+Accept: {{contentType}}
+
+{
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "camera_device_label": "FaceTime HD Camera (Built-in)",
+  "platform": "Win32"
+}
+
+###
+# Extract the Session ID from the response above
+@sessionId = {{initSession.response.body.session_id}}
+
+###
+# 3. Retrieve Current Threat Coordinates
+# Pulls the fused threat index and per-agent telemetry scores from Redis cache.
+# Real-time updates are pushed by the daemon swarm asynchronously.
+GET {{host}}/{{apiVersion}}/session/{{sessionId}}/threat
+Accept: {{contentType}}
+
+###
+# 4. Retrieve Full Session State
+# Returns the entire session state metadata, device configurations, and signatures.
+GET {{host}}/{{apiVersion}}/session/{{sessionId}}
+Accept: {{contentType}}
+
+###
+# 5. Clean Session Termination
+# Tears down state vectors, clear lists, and removes session context from Redis.
+POST {{host}}/{{apiVersion}}/session/{{sessionId}}/close
+Accept: {{contentType}}
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# WebSocket Streaming Simulation Instructions (RFC 6455)
+# ──────────────────────────────────────────────────────────────────────────────
+# Use an interactive WebSocket client (like wscat, websocat, or Postman) to test
+# binary ingest streams:
+#
+# A. Audio Ingestion Stream:
+#    ws://localhost:8080/api/v1/stream/audio?session_id={{sessionId}}
+#    - Protocol: Binary
+#    - Payload: Raw 16kHz mono PCM frames (Int16 samples, little-endian)
+#    - Behavior: Automatically splits, buffers, and triggers the Phoneme/Hermes agents.
+#
+# B. Sensor Ingestion Stream:
+#    ws://localhost:8080/api/v1/stream/sensor?session_id={{sessionId}}
+#    - Protocol: Binary (Text fallback supported for debug)
+#    - Format: JSON array representing "[gyro_x, gyro_y, gyro_z, touch_pressure, touch_x, touch_y]"
+#    - Sample: [0.0012, -0.0025, 0.0049, 0.85, 320.0, 480.0]
+#    - Behavior: Feeds high-pass filter + online Welford estimator. Trigger alerts if z-variance > 0.0045.
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Outbound Mock Webhook Endpoints
+# ──────────────────────────────────────────────────────────────────────────────
+
+###
+# C. Mock Core Banking webhook (Receiver for Account Freeze commands)
+# Fired by Nexus-Agent when circular mule loops are detected.
+POST http://localhost:9001/api/freeze
+Content-Type: {{contentType}}
+
+{
+  "action": "FREEZE_ACCOUNTS",
+  "reason": "money_mule_circular_flow_detected",
+  "session_id": "8fa8b301-4475-47e2-89cd-567a12b39df2",
+  "accounts": ["501002300091", "501002300092", "501002300093"],
+  "loop_depth": 3,
+  "total_flow_inr": 125000.0,
+  "timestamp": "2026-07-18T18:52:00Z",
+  "legal_section": "Section 17 PMLA 2002"
+}
+
+###
+# D. Mock Telecom SIP Gateway webhook (Call termination)
+# Fired concurrently with account freezes to release victims from coercion.
+POST http://localhost:9002/api/terminate
+Content-Type: {{contentType}}
+
+{
+  "session_id": "8fa8b301-4475-47e2-89cd-567a12b39df2",
+  "reason": "fraud_interdiction"
+}
