@@ -1,0 +1,49 @@
+{
+  "name": "Kavach-AI | Real-Time Threat Detection",
+  "short_name": "Kavach-AI",
+  "description": "Enterprise digital public safety and call threat detection platform",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d0f14",
+  "theme_color": "#be2d2d",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230d0f14' width='192' height='192'/><circle cx='96' cy='96' r='80' fill='%23be2d2d'/><path d='M96 50 L130 130 L62 130 Z' fill='%23fff'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%230d0f14' width='512' height='512'/><circle cx='256' cy='256' r='200' fill='%23be2d2d'/><path d='M256 130 L330 330 L182 330 Z' fill='%23fff'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%230d0f14' width='540' height='720'/><text x='50%' y='50%' text-anchor='middle' fill='%23be2d2d' font-size='48'>Kavach-AI</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["security", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Start Call Detection",
+      "short_name": "Detect",
+      "description": "Initiate threat detection on call",
+      "url": "/dashboard?mode=detect",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='40' fill='%23be2d2d'/><path d='M48 24 L66 66 L30 66 Z' fill='%23fff'/></svg>",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}
