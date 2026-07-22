@@ -182,9 +182,9 @@ python -m pytest tests/test_swarm_pipeline.py -v
 
 ## 📄 Specifications & Documentation
 
-- [Product Requirement Document (PRD), SRS & System Design](<./[Updated Version] Product Requirement Document (PRD), Software Requirements Specification (SRS), and System Design Specification for Kavach-AI.md>)
-- [Digital Public Safety & Threat Intelligence Spec](<./[Updated version ]Kavach-AI_ Enterprise Digital Public Safety and Threat Intelligence Infrastructure.md>)
-- [Multi-Agent Orchestration Blueprint](./System_Design_and_Multi_Agent_Orchestration_Blueprint.md)
+- [Product Requirement Document (PRD), SRS & System Design](<./documents/[Updated Version] Product Requirement Document (PRD), Software Requirements Specification (SRS), and System Design Specification for Kavach-AI.md>)
+- [Digital Public Safety & Threat Intelligence Spec](<./documents/[Updated version ]Kavach-AI_ Enterprise Digital Public Safety and Threat Intelligence Infrastructure.md>)
+- [Multi-Agent Orchestration Blueprint](./documents/System_Design_and_Multi_Agent_Orchestration_Blueprint.md)
 - [Client Frontend Guide](./Client/README.md)
 - [Client Deployment Guide](./Client/DEPLOYMENT.md)
 
