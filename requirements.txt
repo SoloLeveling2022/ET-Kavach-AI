@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Kavach-AI Python Dependencies
+# Install: pip install -r requirements.txt
+# ─────────────────────────────────────────────────────────────────────────────
+
+# HTTP / WebSocket server
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+websockets==13.1
+
+# Async Redis client (hiredis for speed)
+redis[hiredis]==5.2.1
+
+# Async PostgreSQL
+asyncpg==0.30.0
+
+# Neo4j official Python driver
+neo4j==5.27.0
+
+# Async HTTP client (webhooks, outbound calls)
+httpx==0.28.1
+
+# Pydantic v2 (data validation, models)
+pydantic==2.10.4
+pydantic-settings==2.7.0
+
+# Environment variable loading
+python-dotenv==1.0.1
+
+# Structured logging
+structlog==24.4.0
+
+# ONNX CPU inference (wav2vec2, whisper models)
+onnxruntime==1.20.1
+
+# Cryptography (P-256 ECDSA for Lex Agent)
+cryptography==44.0.0
+
+# Scientific / signal processing
+numpy==2.2.1
+scipy==1.15.1
+
+# UUID (stdlib, but explicit for clarity)
+# uuid is stdlib in Python 3.x
+
+# Type annotations
+typing-extensions==4.12.2

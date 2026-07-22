@@ -1,0 +1,26 @@
+# Dependencies & Build Outputs
+node_modules/
+.next/
+*.tsbuildinfo
+dist/
+build/
+
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Environment & Config
+.env
+.env*.local
+
+# Cache & OS files
+cache/
+.DS_Store
+Thumbs.db
+.v0-trash/
+.vercel/
